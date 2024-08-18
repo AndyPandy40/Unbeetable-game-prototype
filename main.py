@@ -38,13 +38,26 @@ screen_height = len(tilemap) * tile_size
 screen = pygame.display.set_mode((screen_width, screen_height))
 
 
-def draw_tilemap():
-    # Iterates through each element in the 2d array
-    for row in range(len(tilemap)):
-        for col in range(len(tilemap[row])):
-            tile_type = tilemap[row][col] # Finds the tile type (1 or 0)
-            tile_image = tile_images[tile_type] # Matches it with the image using the dictionary
-            screen.blit(tile_image, (col * tile_size, row * tile_size)) # Displays them in order using their position in the array and size
+#TODO turn the function to a class
+class Map:
+    def __init__(self, tilemap, tile_images, tile_size):
+        self.tilemap = tilemap 
+        self.tile_images = tile_images
+        self.tile_size = tile_size
+
+
+    def draw_tilemap(self):
+        # Iterates through each element in the 2d array
+        for row in range(len(self.tilemap)):
+            for col in range(len(self.tilemap[row])):
+                tile_type = self.tilemap[row][col] # Finds the tile type at a position (1 or 0)
+                tile_image = self.tile_images[tile_type] # Matches it with the image using the dictionary
+                screen.blit(tile_image, (col * self.tile_size, row * self.tile_size)) # Displays them in order using their position in the array and size
+
+
+        
+        
+
 
 # Main game loop
 running = True
@@ -55,7 +68,10 @@ while running:
 
     screen.fill(white)  # Fill the screen with white
 
-    draw_tilemap()  # Draw the tilemap
+
+    Background = Map(tilemap, tile_images, tile_size)
+    
+    Background.draw_tilemap()  # Draw the tilemap
 
     pygame.display.flip()  # Update the display
 
