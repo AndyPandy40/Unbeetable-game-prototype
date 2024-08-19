@@ -34,6 +34,7 @@ tilemap = [
     [0,0,0,0,0,1,0,0,0,0,0,0,0,0,0]
 ]
 
+# Sets the screen width and height according to the tile size and number
 screen_width = len(tilemap[0]) * tile_size
 screen_height = len(tilemap) * tile_size
 screen = pygame.display.set_mode((screen_width, screen_height))
@@ -87,12 +88,14 @@ Background = Map(tilemap, tile_images, tile_size)
 
 Bee = Bees(bee_sprite_sheet, 48, black)
 
+# Set up for the bee animation
 animation_list = []
 animation_steps = 6
 last_update = pygame.time.get_ticks()
-animation_cooldown = 100
+animation_cooldown = 100 # The time between frames
 frame = 0
 
+# Append each frame to a list
 for x in range(animation_steps):
     animation_list.append(Bee.get_image(x, 48, 48))
 
@@ -114,7 +117,7 @@ while running:
     if current_time - last_update >= animation_cooldown:
         frame += 1
         last_update = current_time
-        if frame >= animation_steps:
+        if frame >= animation_steps: # Make sure the animation loops from the start again
             frame = 0
 
     # Display bee
