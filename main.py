@@ -11,10 +11,11 @@ black = (0, 0, 0)
 grass_img = pygame.image.load("tiles/grass.png")
 path_img = pygame.image.load("tiles/path.png")
 bee_sprite_sheet = pygame.image.load("bees/bee.png")
+tower_img = pygame.image.load("towers/towerBase.png")  #192x192
 
 grass_img = pygame.transform.scale(grass_img, (tile_size, tile_size))
 path_img = pygame.transform.scale(path_img, (tile_size, tile_size))
-
+tower_img = pygame.transform.scale(tower_img, (150,150))
 
 tile_images = {
     0: grass_img,
@@ -82,6 +83,30 @@ class Bees:
         screen.blit(frame_0, position)
         
 
+class Tower: #TODO make sure this class actually works and loads a tower
+    def __init__(self, sheet, size, color):
+        self.sheet = sheet
+        self.size = size
+        self.color = color
+
+    def get_image(self, level, width, height):
+
+        # Creates a surface to blit the image onto
+        image = pygame.Surface((width, height))
+        image.blit(self.sheet, (0,0), ((level*width), 0, width, height))
+
+        # Sets the black background to be transparent
+        image.set_colorkey(self.color)
+
+        return image
+    
+    def draw_bee(self, level, position):
+        level_0 = self.get_image(level, 48, 48)
+
+        # Blits the image onto the screen
+        screen.blit(level_0, position)
+        
+
 Background = Map(tilemap, tile_images, tile_size)
 
 
@@ -95,7 +120,7 @@ last_update = pygame.time.get_ticks()
 animation_cooldown = 100 # The time between frames
 frame = 0
 
-# Append each frame to a list
+# Append each frame of bee animation to a list
 for x in range(animation_steps):
     animation_list.append(Bee.get_image(x, 48, 48))
 
@@ -116,13 +141,13 @@ while running:
     current_time = pygame.time.get_ticks()
     if current_time - last_update >= animation_cooldown:
         frame += 1
-        last_update = current_time
+        last_update = current_time # Resets the last update each time a frame updates
         if frame >= animation_steps: # Make sure the animation loops from the start again
             frame = 0
 
     # Display bee
     screen.blit(animation_list[frame], (0,0))
-
+    screen.blit(tower_img, (60,60))
 
     pygame.display.flip()  # Update the display
 
