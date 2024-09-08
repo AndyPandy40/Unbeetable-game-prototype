@@ -4,6 +4,9 @@ pygame.init()
 
 
 tile_size = 64*1.5
+tower_height = 135
+tower_width = tower_height/3
+bee_size = 48
 
 white = (255, 255, 255)
 black = (0, 0, 0)
@@ -11,11 +14,13 @@ black = (0, 0, 0)
 grass_img = pygame.image.load("tiles/grass.png")
 path_img = pygame.image.load("tiles/path.png")
 bee_sprite_sheet = pygame.image.load("bees/bee.png")
-tower_img = pygame.image.load("towers/towerBase.png")  #192x192
+tower_sprite_sheet = pygame.image.load("towers/towerBase.png")  #192x192
+weapon_img_L1 = pygame.image.load("towers/towerWeaponL1.png")
 
 grass_img = pygame.transform.scale(grass_img, (tile_size, tile_size))
 path_img = pygame.transform.scale(path_img, (tile_size, tile_size))
-tower_img = pygame.transform.scale(tower_img, (150,150))
+tower_sprite_sheet = pygame.transform.scale(tower_sprite_sheet, (tower_height,tower_height))
+#weapon_img_L1 = pygame.transform.scale(weapon_img_L1, (60,60))
 
 tile_images = {
     0: grass_img,
@@ -77,13 +82,13 @@ class Bees:
         return image
     
     def draw_bee(self, frame, position):
-        frame_0 = self.get_image(frame, 48, 48)
+        frame_0 = self.get_image(frame, bee_size, bee_size)
 
         # Blits the image onto the screen
         screen.blit(frame_0, position)
         
 
-class Tower: #TODO make sure this class actually works and loads a tower
+class Towers: #TODO make sure this class actually works and loads a tower
     def __init__(self, sheet, size, color):
         self.sheet = sheet
         self.size = size
@@ -100,8 +105,8 @@ class Tower: #TODO make sure this class actually works and loads a tower
 
         return image
     
-    def draw_bee(self, level, position):
-        level_0 = self.get_image(level, 48, 48)
+    def draw_tower(self, level, position):
+        level_0 = self.get_image(level, tower_width, tower_height)
 
         # Blits the image onto the screen
         screen.blit(level_0, position)
@@ -111,7 +116,9 @@ Background = Map(tilemap, tile_images, tile_size)
 
 
 
-Bee = Bees(bee_sprite_sheet, 48, black)
+Bee = Bees(bee_sprite_sheet, bee_size, black)
+
+Tower = Towers(tower_sprite_sheet, tower_height, black)
 
 # Set up for the bee animation
 animation_list = []
@@ -122,7 +129,7 @@ frame = 0
 
 # Append each frame of bee animation to a list
 for x in range(animation_steps):
-    animation_list.append(Bee.get_image(x, 48, 48))
+    animation_list.append(Bee.get_image(x, bee_size, bee_size))
 
 # Main game loop
 running = True
@@ -147,8 +154,12 @@ while running:
 
     # Display bee
     screen.blit(animation_list[frame], (0,0))
-    screen.blit(tower_img, (60,60))
 
+    # Display tower
+    screen.blit(tower_sprite_sheet, (60,60))
+    Tower.draw_tower(2, (200,200))
+    screen.blit(weapon_img_L1, (180,200))
+    
     pygame.display.flip()  # Update the display
 
 
