@@ -65,8 +65,8 @@ class Map:
 
 
 class Bees:
-    def __init__(self, sheet, size, color):
-        self.sheet = sheet   # TODO rename this to sprite sheet
+    def __init__(self, sheet, size: int, color: tuple):
+        self.sheet = sheet   # TODO rename this to sprite_sheet
         self.size = size
         self.color = color
 
@@ -89,8 +89,8 @@ class Bees:
         
 
 class Towers: #TODO make sure this class actually works and loads a tower
-    def __init__(self, sheet, size, color):
-        self.sheet = sheet # TODO rename this to sprite sheet
+    def __init__(self, sheet, size: int, color: tuple):
+        self.sheet = sheet # TODO rename this to sprite_sheet
         self.size = size
         self.color = color
 
