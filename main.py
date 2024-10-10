@@ -3,7 +3,7 @@ import pygame
 pygame.init()
 
 
-tile_size = 64*1.5
+tile_size = 64*1.5 # Size of screen is 1440 x 864
 tower_height = 135
 tower_width = tower_height/3
 bee_size = 48
